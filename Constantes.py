@@ -1,2 +1,4 @@
-ancho = 1530
+ancho = 1024
 alto = 800
+ANCHO_BOTON = 200
+ALTO_BOTON = 60
