@@ -56,7 +56,16 @@ while run:
                 if un_topo.rect.collidepoint(pos_click):
                     if un_topo.golpear():
                         Puntos += 10
+        if estado == "FIN_JUEGO" and event.type == pygame.MOUSEBUTTONDOWN:
+            pos_click = event.pos
+            if btn_jugar.collidepoint(pos_click):
 
+                TiempoR = DuracionP
+                Puntos = 0
+                estado = "JUGANDO"
+                pygame.mouse.set_visible(0)
+            if btn_salir.collidepoint(pos_click):
+                run = False
     jugador.actposicion()
     tt = tiempo.get_time()
     ventana.blit(background, [0, 0])
@@ -92,6 +101,8 @@ while run:
         ventana.blit(texto_puntaje, (x_puntaje, Constantes.alto / 2.5))
         ventana.blit(boton.boton_jugar, btn_jugar.topleft)
         ventana.blit(boton.boton_salir, btn_salir.topleft)
+        if estado == "JUGANDO":
+            ventana.blit(jugador.jugador_imagen, [jugador.x, jugador.y])
     ventana.blit(jugador.jugador_imagen, [jugador.x, jugador.y])
     pygame.display.flip()
     tiempo.tick(60)
