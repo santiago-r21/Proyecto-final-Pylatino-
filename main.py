@@ -7,9 +7,11 @@ pygame.init()
 ventana = pygame.display.set_mode((Constantes.ancho, Constantes.alto))
 run = True
 tiempo = pygame.time.Clock()
-
 background = pygame.image.load("imagenes/Menu.png").convert()
 titulo = pygame.image.load("imagenes/Titulo.png")
+Fondo = pygame.image.load("imagenes/Fondo.png").convert()
+FondoJuego = pygame.transform.scale(Fondo, (Constantes.ancho, Constantes.alto))
+
 jugador.cargarima()
 topo.cargar_assets()
 Ttopos = pygame.sprite.Group()
@@ -36,13 +38,13 @@ while run:
         if estado == "MENU" and event.type == pygame.MOUSEBUTTONDOWN:
             pos_click = event.pos  # posicion mouse
             if btn_jugar.collidepoint(pos_click):
-                estado_juego = "JUGANDO"  # inicia el juega
+                estado = "JUGANDO"  # inicia el juega
             if btn_salir.collidepoint(pos_click):
                 run = False  # Salir del bucle y del juego
         if estado == "JUGANDO" and event.type == pygame.MOUSEBUTTONDOWN:
             pos_click = event.pos
             for un_topo in Ttopos:
-                if un_topo.rect.collideonpoint(pos_click):
+                if un_topo.rect.collidepoint(pos_click):
                     if un_topo.golpear():
                         Puntos += 10
 
@@ -53,14 +55,17 @@ while run:
     ventana.blit(titulo, [250, 80])
 
     if estado == "MENU":
-        posicion_mouse = pygame.mouse.get_pos()
+        ventana.blit(background, [0, 0])
+        ventana.blit(titulo, [250, 80])
         ventana.blit(boton.boton_jugar, btn_jugar.topleft)
-
         ventana.blit(boton.boton_salir, btn_salir.topleft)
+
     elif estado == "JUGANDO":
+        ventana.blit(FondoJuego, [0, 0])  # Fondo de juego
         Ttopos.update(tt)
         Ttopos.draw(ventana)
     ventana.blit(jugador.jugador_imagen, [jugador.x, jugador.y])
     pygame.display.flip()
     tiempo.tick(60)
+
 pygame.quit()
