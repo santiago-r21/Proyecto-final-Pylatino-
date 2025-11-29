@@ -67,10 +67,10 @@ def cargar_assets():
     topos["arriba"] = pygame.transform.scale(imgarriba, TamañoTopos)
     topos["golpeado"] = pygame.transform.scale(imggolpeado, TamañoTopos)
     Posiciones_topos.extend([
-        (200, 350),  # arriba izquierda
-        (400, 350),  # centro arriba
-        (600, 350),  # derecha arriba
-        (200, 500),  # abajo izquierda
-        (400, 500),  # centro abajo
-        (600, 500),  # abajo derecha
+        (200, 370),  # arriba izquierda
+        (510, 370),  # centro arriba
+        (830, 370),  # derecha arriba
+        (200, 630),  # abajo izquierda
+        (510, 630),  # centro abajo
+        (830, 630),  # abajo derecha
     ])

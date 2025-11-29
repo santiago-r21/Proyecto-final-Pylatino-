@@ -4,6 +4,7 @@ import jugador
 import boton
 import topo
 pygame.init()
+pygame.font.init()
 ventana = pygame.display.set_mode((Constantes.ancho, Constantes.alto))
 run = True
 tiempo = pygame.time.Clock()
@@ -11,7 +12,6 @@ background = pygame.image.load("imagenes/Menu.png").convert()
 titulo = pygame.image.load("imagenes/Titulo.png")
 Fondo = pygame.image.load("imagenes/Fondo.png").convert()
 FondoJuego = pygame.transform.scale(Fondo, (Constantes.ancho, Constantes.alto))
-
 jugador.cargarima()
 topo.cargar_assets()
 Ttopos = pygame.sprite.Group()
@@ -19,6 +19,13 @@ for i in range(len(topo.Posiciones_topos)):
     nuevo_topo = topo.Topo(i)
     Ttopos.add(nuevo_topo)
 Puntos = 0
+Puntaje = pygame.font.SysFont("comicsans", 40)
+BLANCO = (255, 255, 255)
+NEGRO = (0, 0, 0)
+DuracionP = 10000
+global TiempoR
+TiempoR = DuracionP
+fuente_fin = pygame.font.SysFont("comicsans", 80, bold=True)
 pygame.mouse.set_visible(0)
 ESPACIO_ENTRE_BOTONES = 40
 estado = "MENU"
@@ -38,7 +45,9 @@ while run:
         if estado == "MENU" and event.type == pygame.MOUSEBUTTONDOWN:
             pos_click = event.pos  # posicion mouse
             if btn_jugar.collidepoint(pos_click):
-                estado = "JUGANDO"  # inicia el juega
+                estado = "JUGANDO"
+                TiempoR = DuracionP
+                Puntos = 0
             if btn_salir.collidepoint(pos_click):
                 run = False  # Salir del bucle y del juego
         if estado == "JUGANDO" and event.type == pygame.MOUSEBUTTONDOWN:
@@ -50,8 +59,7 @@ while run:
 
     jugador.actposicion()
     tt = tiempo.get_time()
-    # posicion cursor
-    ventana.blit(background, [0, 0])  # se muestra la imagen de fondo
+    ventana.blit(background, [0, 0])
     ventana.blit(titulo, [250, 80])
 
     if estado == "MENU":
@@ -61,9 +69,29 @@ while run:
         ventana.blit(boton.boton_salir, btn_salir.topleft)
 
     elif estado == "JUGANDO":
-        ventana.blit(FondoJuego, [0, 0])  # Fondo de juego
+        ventana.blit(FondoJuego, [0, 0])
+        TiempoR -= tt
+        if TiempoR <= tt:
+            TiempoR = 0
+            estado = "FIN_JUEGO"
         Ttopos.update(tt)
         Ttopos.draw(ventana)
+        segundos = int(TiempoR/1000)
+        MostrarPuntaje = Puntaje.render(f"Tus Puntos: {Puntos}", True, NEGRO)
+        ventana.blit(MostrarPuntaje, (10, 10))
+        texto_tiempo = Puntaje.render(f"TIEMPO: {segundos}", True, NEGRO)
+        x_tiempo = Constantes.ancho - texto_tiempo.get_width() - 10
+        ventana.blit(texto_tiempo, (x_tiempo, 10))
+    elif estado == "FIN_JUEGO":
+        ventana.blit(Fondo, [0, 0])
+        texto_fin = fuente_fin.render("¡TIEMPO AGOTADO!", True, NEGRO)
+        x_fin = (Constantes.ancho / 2) - (texto_fin.get_width() / 2)
+        ventana.blit(texto_fin, (x_fin, Constantes.alto / 4))
+        texto_puntaje = Puntaje.render(f"PUNTUACIÓN FINAL: {Puntos}", True, NEGRO)
+        x_puntaje = (Constantes.ancho / 2) - (texto_puntaje.get_width() / 2)
+        ventana.blit(texto_puntaje, (x_puntaje, Constantes.alto / 2.5))
+        ventana.blit(boton.boton_jugar, btn_jugar.topleft)
+        ventana.blit(boton.boton_salir, btn_salir.topleft)
     ventana.blit(jugador.jugador_imagen, [jugador.x, jugador.y])
     pygame.display.flip()
     tiempo.tick(60)
