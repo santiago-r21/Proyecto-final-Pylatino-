@@ -7,7 +7,7 @@ y = 0
 
 def cargarima():
     global jugador_imagen
-    cursor_original = pygame.image.load("imagenes/cursor.png").convert_alpha()
+    cursor_original = pygame.image.load("Proyecto-final-Pylatino-/imagenes/cursor.png").convert_alpha()
     nuevo_ancho = 100
     nuevo_alto = 100
     jugador_imagen = pygame.transform.scale(cursor_original, (nuevo_ancho, nuevo_alto))

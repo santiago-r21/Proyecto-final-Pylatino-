@@ -60,9 +60,9 @@ def cargar_assets():
     global topos, Posiciones_topos
     TamañoTopos = (Constantes.ANCHO_TOPO, Constantes.ALTO_TOPO)
 
-    imgescondido = pygame.image.load("imagenes/Topo_escondido.png").convert_alpha()
-    imgarriba = pygame.image.load("imagenes/Topo.png").convert_alpha()
-    imggolpeado = pygame.image.load("imagenes/Golpeado.png").convert_alpha()
+    imgescondido = pygame.image.load("Proyecto-final-Pylatino-/imagenes/Topo_escondido.png").convert_alpha()
+    imgarriba = pygame.image.load("Proyecto-final-Pylatino-/imagenes/Topo.png").convert_alpha()
+    imggolpeado = pygame.image.load("Proyecto-final-Pylatino-/imagenes/Golpeado.png").convert_alpha()
     topos["escondido"] = pygame.transform.scale(imgescondido, TamañoTopos)
     topos["arriba"] = pygame.transform.scale(imgarriba, TamañoTopos)
     topos["golpeado"] = pygame.transform.scale(imggolpeado, TamañoTopos)
